@@ -105,7 +105,7 @@ void *graphicaluserinterface( void *arg ){
   FILE *wsh;
 
   gi = (global_info *)arg;
-  wsh = popen( "wish magnet_control.tcl" , "r+" );
+  wsh = popen( "wish magnet_control.tcl" , "r" );
   if( wsh == NULL ){
     fprintf( stderr , "popen failed\n" );
     gi->exitf = 1;
@@ -122,7 +122,7 @@ void *graphicaluserinterface( void *arg ){
     }else if( strcmp( buf , "pattern" ) == 0 ){
       pattern( wsh , gi );
     }
-    fprintf( wsh , "ok\n" );
+    //fprintf( wsh , "ok\n" );
     fflush( wsh );
   }
  
