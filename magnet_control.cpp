@@ -77,7 +77,7 @@ void pattern( FILE *wsh , global_info *gi ){
   for( i = 0 ; i < 20 ; i++ ){
     fscanf( wsh , "%hd %hd %hd" 
 	    , &pat[0][i] , &pat[1][i] , &pat[2][i] );
-    fprintf( wsh , "ok\n" );
+    //fprintf( wsh , "ok\n" );
     fflush( wsh );
   }
   for( i = 0 ; i < 2000 ; i++ ){

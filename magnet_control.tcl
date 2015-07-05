@@ -102,9 +102,9 @@ proc sendPattern { } {
     for { set i 0 } { $i < 20 } { incr i } {
 	puts stdout [lindex $ptn $i]
 	flush stdout
-	set buf [gets stdin]
+	#set buf [gets stdin]
     }
-    set buf [gets stdin]
+    #set buf [gets stdin]
 }
 
 proc displayONOFF { } {
@@ -167,7 +167,7 @@ proc mainLoop { } {
     flush stdout
     puts stdout $ctr
     flush stdout
-    set buf [gets stdin]
+    #set buf [gets stdin]
     displayONOFF
     update
     after 10 mainLoop
