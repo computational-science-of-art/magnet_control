@@ -105,6 +105,11 @@ void *graphicaluserinterface( void *arg ){
 
   gi = (global_info *)arg;
   wsh = popen( "wish magnet_control.tcl" , "r+" );
+  if( wsh == NULL ){
+    fprintf( stderr , "popen failed\n" );
+    gi->exitf = 1;
+    return NULL;
+  }
 
   while( 1 ){
     fscanf( wsh , "%s" , buf );
@@ -121,6 +126,7 @@ void *graphicaluserinterface( void *arg ){
   }
  
   pclose( wsh );
+  return NULL;
 }
 
 void *commanduserinterface( void *arg ){
@@ -139,6 +145,7 @@ void *commanduserinterface( void *arg ){
       scanf( "%hd %hd %hd" , &gi->ctr[0] , &gi->ctr[1] , &gi->ctr[2] );
     }
   }
+  return NULL;
 }
 
 void signalhandler( int a ){
