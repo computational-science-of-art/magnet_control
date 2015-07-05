@@ -68,6 +68,7 @@ typedef struct{
   int              exitf;
   pthread_mutex_t  mutex;
   pthread_cond_t   cond;
+  string           wsh_path;
 }global_info;
 
 void pattern( FILE *wsh , global_info *gi ){
@@ -178,11 +179,15 @@ int main( int ac , char **av ){
   tim.it_value.tv_usec = tim.it_interval.tv_usec = 5000;
   setitimer( ITIMER_REAL , &tim , NULL );
   
-  if( ac != 2 ){
+  if( ac < 2 ){
     cerr << "Usage: " << av[0] << " [device name]" << endl;
     return 0;
   }
-  
+  if( ac > 2 ){
+    gi.wsh_path = (string)av[2] + " magnet_control.tcl";
+  }else{
+    gi.wsh_path = "wish magnet_control.tcl";
+  }
   fd = openDevice( av[1] );
   if( fd < 0 ){
     return 0;
