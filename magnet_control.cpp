@@ -54,7 +54,7 @@ int sendData( int fd , short *ctr ){
   int ret , i;
   char buf;
   buf  = 0;
-  for( i = 0 ; i < 3 ; i++ ){
+  for( i = 0 ; i < 4 ; i++ ){
     if( ctr[i] ){
       buf += (0x01<<(i));
     }
@@ -80,8 +80,8 @@ void pattern( FILE *wsh , global_info *gi ){
     //fprintf( wsh , "ok\n" );
     fflush( wsh );
   }
-  for( i = 0 ; i < 2000 ; i++ ){
-    if( i%100 == 0 ){
+  for( i = 0 ; i < 800 ; i++ ){
+    if( i%40 == 0 ){
       j++;
     }
     pthread_mutex_lock( &gi->mutex );
@@ -90,6 +90,7 @@ void pattern( FILE *wsh , global_info *gi ){
     gi->ctr[0] = pat[0][j];
     gi->ctr[1] = pat[1][j];
     gi->ctr[2] = pat[2][j];
+    gi->ctr[3] = 0;
   }
   pthread_mutex_lock( &gi->mutex );
   pthread_cond_wait( &gi->cond , &gi->mutex );
@@ -97,6 +98,7 @@ void pattern( FILE *wsh , global_info *gi ){
   gi->ctr[0] = 0;
   gi->ctr[1] = 0;
   gi->ctr[2] = 0;
+  gi->ctr[3] = 0;
 }
 
 void *graphicaluserinterface( void *arg ){
@@ -118,7 +120,8 @@ void *graphicaluserinterface( void *arg ){
       gi->exitf = 1;
       break;
     }else if( strcmp( buf , "set" ) == 0 ){
-      fscanf( wsh , "%hd %hd %hd" , &gi->ctr[0] , &gi->ctr[1] , &gi->ctr[2] );
+      fscanf( wsh , "%hd %hd %hd %hd" 
+	      , &gi->ctr[0] , &gi->ctr[1] , &gi->ctr[2] , &gi->ctr[3] );
     }else if( strcmp( buf , "pattern" ) == 0 ){
       pattern( wsh , gi );
     }
@@ -154,7 +157,7 @@ void signalhandler( int a ){
 
 int main( int ac , char **av ){
   int         fd;
-  short       ctr[] = {0,0,0};
+  short       ctr[] = {0,0,0,0};
   char        buf;
   int         signo , i , j;
   sigset_t    ss;

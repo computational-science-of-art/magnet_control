@@ -1,6 +1,6 @@
 raise .
 
-pack [canvas .main -width 160 -height 160 -bg #000000]
+pack [canvas .main -width 160 -height 180 -bg #000000]
 
 .main create rectangle 10 35 150 65 -fill #222222 -outline #000000
 .main create text 50 50  -text "Magnet 1 " -fill #00FF00 -anchor c
@@ -8,6 +8,8 @@ pack [canvas .main -width 160 -height 160 -bg #000000]
 .main create text 50 80  -text "Magnet 2 " -fill #00FF00 -anchor c
 .main create rectangle 10 95 150 125 -fill #222222 -outline #000000
 .main create text 50 110 -text "Magnet 3 " -fill #00FF00 -anchor c
+.main create rectangle 10 125 150 155 -fill #222222 -outline #000000
+.main create text 50 140 -text "LED " -fill #00FF00 -anchor c
 
 toplevel .ptnmkr
 canvas .ptnmkr.main -width 650 -height 160 -bg #000000
@@ -22,7 +24,7 @@ pack .ptnmkr.send -side bottom
 .ptnmkr.main create rectangle 10 95 100 125 -fill #222222 -outline #000000
 .ptnmkr.main create text 50 110 -text "Magnet 3 " -fill #00FF00 -anchor c
 
-set ctr [list 0 0 0]
+set ctr [list 0 0 0 0]
 set ptn [list [list 0 0 0] \
 	     [list 0 0 0] \
 	     [list 0 0 0] \
@@ -92,6 +94,7 @@ bind . <Key-q> {quit}
 bind . <KeyPress-1> {set1}
 bind . <KeyPress-2> {set2}
 bind . <KeyPress-3> {set3}
+bind . <KeyPress-4> {setled}
 bind . <KeyPress-space> {unsetall}
 bind . <Key-p> {sendPattern}
 
@@ -110,7 +113,7 @@ proc sendPattern { } {
 proc displayONOFF { } {
     global ctr
     .main delete magnetstatus
-    for { set i 0 } { $i < 3 } { incr i } {
+    for { set i 0 } { $i < 4 } { incr i } {
 	if { [lindex $ctr $i] == 1 } {
 	    .main create text 120 [expr 50+$i*30] -text "ON" -tag magnetstatus -fill #FFFF00
 	} else {
@@ -132,6 +135,7 @@ proc unsetall { } {
     lset ctr 0 0
     lset ctr 1 0
     lset ctr 2 0
+    lset ctr 3 0
 }
 
 proc set1 { } {
@@ -158,6 +162,15 @@ proc set3 { } {
 	lset ctr 2 1
     } else {
 	lset ctr 2 0
+    }
+}
+
+proc setled { } {
+    global ctr
+    if { [lindex $ctr 3] == 0 } {
+	lset ctr 3 1
+    } else {
+	lset ctr 3 0
     }
 }
 
