@@ -12,7 +12,7 @@ pack [canvas .main -width 160 -height 180 -bg #000000]
 .main create text 50 140 -text "LED " -fill #00FF00 -anchor c
 
 toplevel .ptnmkr
-canvas .ptnmkr.main -width 650 -height 160 -bg #000000
+canvas .ptnmkr.main -width 650 -height 200 -bg #000000
 button .ptnmkr.send -text "send pattern" -command sendPattern
 pack .ptnmkr.main
 pack .ptnmkr.send -side bottom
@@ -25,31 +25,32 @@ pack .ptnmkr.send -side bottom
 .ptnmkr.main create text 50 110 -text "Magnet 3 " -fill #00FF00 -anchor c
 
 set ctr [list 0 0 0 0]
-set ptn [list [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] \
-	     [list 0 0 0] ]
+set ptn [list [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] \
+	     [list 0 0 0 0] ]
 
 for { set i 0 } { $i < 20 } { incr i } {
     .ptnmkr.main create rectangle [expr $i*25+105] 35 [expr $i*25+125] 65 -fill #000000 -outline #555555 -width 1 -tag ptn0$i
     .ptnmkr.main create rectangle [expr $i*25+105] 65 [expr $i*25+125] 95 -fill #000000 -outline #555555 -width 1 -tag ptn1$i
     .ptnmkr.main create rectangle [expr $i*25+105] 95 [expr $i*25+125] 125 -fill #000000 -outline #555555 -width 1 -tag ptn2$i
+    .ptnmkr.main create rectangle [expr $i*25+105] 125 [expr $i*25+125] 155 -fill #000000 -outline #555555 -width 1 -tag led$i
 }
 
 bind .ptnmkr <ButtonPress> {
