@@ -72,11 +72,11 @@ typedef struct{
 }global_info;
 
 void pattern( FILE *wsh , global_info *gi ){
-  short pat[3][20];
+  short pat[4][20];
   int   i , j = -1;
   for( i = 0 ; i < 20 ; i++ ){
-    fscanf( wsh , "%hd %hd %hd" 
-	    , &pat[0][i] , &pat[1][i] , &pat[2][i] );
+    fscanf( wsh , "%hd %hd %hd %hd" 
+	    , &pat[0][i] , &pat[1][i] , &pat[2][i] , &pat[3][i] );
     //fprintf( wsh , "ok\n" );
     fflush( wsh );
   }
@@ -90,7 +90,7 @@ void pattern( FILE *wsh , global_info *gi ){
     gi->ctr[0] = pat[0][j];
     gi->ctr[1] = pat[1][j];
     gi->ctr[2] = pat[2][j];
-    gi->ctr[3] = 0;
+    gi->ctr[3] = pat[3][j];
   }
   pthread_mutex_lock( &gi->mutex );
   pthread_cond_wait( &gi->cond , &gi->mutex );

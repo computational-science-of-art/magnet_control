@@ -23,6 +23,8 @@ pack .ptnmkr.send -side bottom
 .ptnmkr.main create text 50 80  -text "Magnet 2 " -fill #00FF00 -anchor c
 .ptnmkr.main create rectangle 10 95 100 125 -fill #222222 -outline #000000
 .ptnmkr.main create text 50 110 -text "Magnet 3 " -fill #00FF00 -anchor c
+.ptnmkr.main create rectangle 10 125 100 155 -fill #222222 -outline #000000
+.ptnmkr.main create text 50 140 -text "LED " -fill #00FF00 -anchor c
 
 set ctr [list 0 0 0 0]
 set ptn [list [list 0 0 0 0] \
@@ -72,13 +74,20 @@ proc setptn { x y } {
 	    } elseif { $y > 95 & $y < 125 } {
 		set tagstr "ptn2$i"
 		set j 2
+	    } elseif { $y > 125 & $y < 155 } {
+		set tagstr "led$i"
+		set j 3
 	    }
 	    break
 	}
     }
     if { $tagstr != "null" } {
 	if { [lindex [lindex $ptn $i] $j] == 0 } {
-	    .ptnmkr.main itemconfigure $tagstr -fill #FF0000
+	    if { $tagstr == "led$i" } {
+		.ptnmkr.main itemconfigure $tagstr -fill #00FF00
+	    } else {
+		.ptnmkr.main itemconfigure $tagstr -fill #FF0000
+	    }
 	    set tmplst [lindex $ptn $i]
 	    lset tmplst $j 1
 	    lset ptn $i $tmplst
