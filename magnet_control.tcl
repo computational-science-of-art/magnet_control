@@ -59,6 +59,53 @@ bind .ptnmkr <ButtonPress> {
     setptn %x %y
 }
 
+set fcnt 0
+set ofcnt 0
+
+bind .ptnmkr <Key-o> {
+    global fcnt
+    global ofcnt
+    global ptn
+    if { [file exists "ptn$ofcnt.txt"] } {
+    set f [open "ptn$ofcnt.txt" "r"]
+	for { set i 0 } { $i < 20 } { incr i } {
+	    set tmp [gets $f]
+	    lset ptn $i $tmp
+	    .ptnmkr.main itemconfigure "ptn0$i" -fill #000000
+	    .ptnmkr.main itemconfigure "ptn1$i" -fill #000000
+	    .ptnmkr.main itemconfigure "ptn2$i" -fill #000000
+	    .ptnmkr.main itemconfigure "led$i" -fill #000000	
+	    if { [lindex $tmp 0] == 1 } {
+		.ptnmkr.main itemconfigure "ptn0$i" -fill #FF0000
+	    }
+	    if { [lindex $tmp 1] == 1 } {
+		.ptnmkr.main itemconfigure "ptn1$i" -fill #FF0000
+	    }
+	    if { [lindex $tmp 2] == 1 } {
+		.ptnmkr.main itemconfigure "ptn2$i" -fill #FF0000
+	    }
+	    if { [lindex $tmp 3] == 1 } {
+		.ptnmkr.main itemconfigure "led$i" -fill #00FF00
+	    }
+	}
+	close $f
+	incr ofcnt
+    } else {
+	set ofcnt 0
+    }
+}
+
+bind .ptnmkr <Key-s> {
+    global fcnt
+    global ptn
+    set f [open "ptn$fcnt.txt" "w"]
+    for { set i 0 } { $i < 20 } { incr i } {
+	puts $f [lindex $ptn $i]
+    }
+    close $f
+    incr fcnt
+}
+
 proc setptn { x y } {
     global ptn
     set tagstr null
